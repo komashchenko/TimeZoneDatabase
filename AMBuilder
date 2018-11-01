@@ -1,0 +1,20 @@
+# vim: set sts=2 ts=8 sw=2 tw=99 et ft=python:
+import os
+
+binary = Extension.Library(builder, 'tzd.ext')
+
+binary.sources += [
+  'extension.cpp',
+  'tz.cpp',
+  os.path.join(Extension.sm_root, 'public', 'smsdk_ext.cpp'),
+]
+
+binary.compiler.defines += [
+	'HAS_REMOTE_API=0',
+	'NOMINMAX',
+]
+
+if binary.compiler.vendor == 'gcc' or binary.compiler.vendor == 'clang':
+  binary.compiler.cxxflags += ['-fexceptions']
+
+Extension.extensions += [builder.Add(binary)]
